@@ -112,6 +112,16 @@ class PersistentPropertiesMixin:
                 if hasattr(self, "changed") and isinstance(self.changed, SignalInstance):
                     action_object.changed.connect(self.changed.emit)
 
+    def detach_actions(self) -> None:
+        if not hasattr(self, "_action_objects"):
+            return
+        
+        for action_object in self._action_objects.values():
+            action_object.instance = None
+            action_object.__class__.__init__ = None
+            if hasattr(action_object, "args") and "self" in action_object.args:
+                action_object.args["self"] = None
+
     def __setstate__(self, state: dict) -> None:
         self._setting_state = True
 
