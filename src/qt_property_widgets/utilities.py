@@ -62,7 +62,7 @@ class property_params(_params_decorator):
     capitalization.
     """
 
-    widget: QWidget | None | T.Literal["auto"] = "auto"
+    widget: type[QWidget] | None | T.Literal["auto"] = "auto"
     """The widget to use for this property.
 
     If ``None``, the property will not be displayed in the UI. Provide a
